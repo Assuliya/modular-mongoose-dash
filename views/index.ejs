@@ -7,9 +7,12 @@
   <body>
     <h2>Here are all of Panthers!</h2>
     <% for (var x in panthers) { %>
-        <h4>Name: <%= panthers[x].quote %></h4>
+        <h4><a href="/panthers/<%= panthers[x]._id %>">Name</a>: <%= panthers[x].name %></h4>
         <h4>Color: <%= panthers[x].color %></h4>
         <h4>Born at: <%= panthers[x].createdAt %></h4>
+        <form action="/panthers/destroy/<%= panthers[x]._id %>" method="post">
+          <input type="submit" name="destroy" value="Destroy">
+        </form>
         <hr>
     <% } %>
   </body>

@@ -28,19 +28,19 @@ app.get('/', function(req, res) {
   })
 })
 
+app.get('/panthers/new', function(req, res) {
+  res.render('new');
+})
+
 app.get('/panthers/:id', function(req, res) {
-  // Panther.find({'_id': id}, function(err, panthers) {
+  // Panther.find({_id: id}, function(err, panthers) {
   //   console.log(panther)
     res.render('one');
   // })
 })
 
-app.get('/panthers/new', function(req, res) {
-  res.render('new');
-})
-
 app.get('/panthers/edit/:id', function(req, res) {
-  // Panther.find({'_id': id}, function(err, panther) {
+  // Panther.find({_id: :id}, function(err, panther) {
   //   console.log(panther)
     res.render('edit');
   // })
@@ -49,12 +49,12 @@ app.get('/panthers/edit/:id', function(req, res) {
 app.post('/panthers', function(req, res) {
     console.log("POST DATA", req.body);
     var panther = new Panther({name: req.body.name, color: req.body.color});
-    dojo.save(function(err) {
+    panther.save(function(err) {
       if(err) {
         console.log('something went wrong');
       } else {
         console.log('successfully added a panther!');
-    res.redirect('/panthers');
+    res.redirect('/');
         }
     })
 })
@@ -64,7 +64,14 @@ app.post('/panthers/:id', function(req, res) {
 })
 
 app.post('/panthers/destroy/:id', function(req, res) {
-
+  Panther.remove({_id: req.params.id}, function(err){
+    if(err) {
+      console.log('something went wrong');
+    } else {
+      console.log('successfully destroyed a panther!');
+      res.redirect('/');
+      }
+  })
 })
 
 app.listen(8000, function() {
