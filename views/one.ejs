@@ -6,7 +6,10 @@
   </head>
   <body>
     <h2>Here is your Panther!</h2>
-
+    <h4>Name: <%= panther[0].name %></h4>
+    <h4>Color: <%= panther[0].color %></h4>
+    <h4>Born at: <%= panther[0].createdAt %></h4>
   </body>
-  <a href="/panthers/edit/:id">Edit the panther</a>
+  <a href="/">Main</a>
+  <a href="/panthers/edit/<%= panther[0]._id %>">Edit the panther</a>
 </html>

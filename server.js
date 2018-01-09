@@ -33,17 +33,17 @@ app.get('/panthers/new', function(req, res) {
 })
 
 app.get('/panthers/:id', function(req, res) {
-  // Panther.find({_id: id}, function(err, panthers) {
-  //   console.log(panther)
-    res.render('one');
-  // })
+  Panther.find({_id: req.params.id}, function(err, panther) {
+    console.log(panther)
+    res.render('one', {panther:panther});
+  })
 })
 
 app.get('/panthers/edit/:id', function(req, res) {
-  // Panther.find({_id: :id}, function(err, panther) {
-  //   console.log(panther)
-    res.render('edit');
-  // })
+  Panther.find({_id: req.params.id}, function(err, panther) {
+    console.log(panther)
+    res.render('edit', {panther:panther});
+  })
 })
 
 app.post('/panthers', function(req, res) {
@@ -60,8 +60,16 @@ app.post('/panthers', function(req, res) {
 })
 
 app.post('/panthers/:id', function(req, res) {
+  Panther.update({_id: req.params.id},{name:req.body.name, color:req.body.color}, function(err) {
+      if(err) {
+        console.log('something went wrong');
+      } else {
+        console.log('successfully edited the panther!');
+        res.redirect('/panthers/'+req.params.id);
+      }
+    })
+  })
 
-})
 
 app.post('/panthers/destroy/:id', function(req, res) {
   Panther.remove({_id: req.params.id}, function(err){

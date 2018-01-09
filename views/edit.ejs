@@ -6,14 +6,14 @@
   </head>
   <body>
     <h2>Panther Edit Form:</h2>
-    <form class="form" action="/panthers" method="post">
+    <form class="form" action="/panthers/<%= panther[0]._id %>" method="post">
       Panther name:
-      <input type="text" name="name">
+      <input type="text" name="name" value="<%= panther[0].name %>">
       Panther color:
-      <input type="text" name="color">
+      <input type="text" name="color" value="<%= panther[0].color %>">
       <input type="submit" value="Edit the panther!">
     </form>
     <br>
-    <a href="/">Return</a>
+    <a href="/">Main</a>
   </body>
 </html>
