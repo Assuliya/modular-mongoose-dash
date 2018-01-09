@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Panthers</title>
+  </head>
+  <body>
+    <h2>Here are all of Panthers!</h2>
+    <% for (var x in panthers) { %>
+        <h4>Name: <%= panthers[x].quote %></h4>
+        <h4>Color: <%= panthers[x].color %></h4>
+        <h4>Born at: <%= panthers[x].createdAt %></h4>
+        <hr>
+    <% } %>
+  </body>
+  <a href="/panthers/new">Add a panther</a>
+</html>
