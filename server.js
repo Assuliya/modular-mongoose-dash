@@ -1,86 +1,21 @@
 var express = require('express');
+var path = require("path");
 var app = express();
-
-var mongoose = require('mongoose');
-mongoose.connect('mongodb://localhost/panthers');
-
-var PantherSchema = new mongoose.Schema({
- name: String,
- color: String,
-}, {timestamps: true });
-
-mongoose.model('Panther', PantherSchema);
-var Panther = mongoose.model('Panther')
 
 var bodyParser = require('body-parser');
 app.use(bodyParser.urlencoded({ extended: true }));
 
-var path = require('path');
-app.use(express.static(path.join(__dirname, './static')));
+app.use(express.static(path.join(__dirname, './client/static')));
 
-app.set('views', path.join(__dirname, './views'));
+app.set('views', path.join(__dirname, './client/views'));
 app.set('view engine', 'ejs');
 
-app.get('/', function(req, res) {
-  Panther.find({}, function(err, panthers) {
-    console.log(panthers)
-    res.render('index', {panthers: panthers});
-  })
-})
+// models
+require('./server/config/mongoose.js');
 
-app.get('/panthers/new', function(req, res) {
-  res.render('new');
-})
-
-app.get('/panthers/:id', function(req, res) {
-  Panther.find({_id: req.params.id}, function(err, panther) {
-    console.log(panther)
-    res.render('one', {panther:panther});
-  })
-})
-
-app.get('/panthers/edit/:id', function(req, res) {
-  Panther.find({_id: req.params.id}, function(err, panther) {
-    console.log(panther)
-    res.render('edit', {panther:panther});
-  })
-})
-
-app.post('/panthers', function(req, res) {
-    console.log("POST DATA", req.body);
-    var panther = new Panther({name: req.body.name, color: req.body.color});
-    panther.save(function(err) {
-      if(err) {
-        console.log('something went wrong');
-      } else {
-        console.log('successfully added a panther!');
-    res.redirect('/');
-        }
-    })
-})
-
-app.post('/panthers/:id', function(req, res) {
-  Panther.update({_id: req.params.id},{name:req.body.name, color:req.body.color}, function(err) {
-      if(err) {
-        console.log('something went wrong');
-      } else {
-        console.log('successfully edited the panther!');
-        res.redirect('/panthers/'+req.params.id);
-      }
-    })
-  })
-
-
-app.post('/panthers/destroy/:id', function(req, res) {
-  Panther.remove({_id: req.params.id}, function(err){
-    if(err) {
-      console.log('something went wrong');
-    } else {
-      console.log('successfully destroyed a panther!');
-      res.redirect('/');
-      }
-  })
-})
+// routes
+var routes_setter = require('./server/config/routes.js');
+routes_setter(app);
 
 app.listen(8000, function() {
     console.log("listening on port 8000");
